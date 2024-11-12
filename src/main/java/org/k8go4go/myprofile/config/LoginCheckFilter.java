@@ -5,7 +5,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
-import org.k8go4go.myprofile.dto.ProfileDTO;
 import org.k8go4go.myprofile.session.SessionConst;
 import org.springframework.util.PatternMatchUtils;
 
@@ -18,6 +17,10 @@ public class LoginCheckFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         Filter.super.init(filterConfig);
+        System.out.println("Test");
+
+
+
     }
 
     @Override
