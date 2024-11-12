@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragment/header::header"></head>
+<body id="page-top">
+
+<!-- Page Wrapper -->
+<div id="wrapper" th:fragment="setContent(content, sidebar)">
+  <!-- Sidebar -->
+  <th:block th:replace="${sidebar}"></th:block>
+  <!-- End of Sidebar -->
+  <!-- Content Wrapper -->
+  <th:block th:replace="${content}"></th:block>
+  <!-- End of Content Wrapper -->
+</div>
+<!-- End of Page Wrapper -->
+<th:block th:fragment="setBottom(bottom)">
+  <th:block th:replace="${bottom}"></th:block>
+</th:block>
+</body>
+</html>

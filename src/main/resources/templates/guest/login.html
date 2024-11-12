@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment/header::header('로그인')"></head>
+<body id="page-top" class="bg-gradient-primary">
+    <!-- Page Wrapper -->
+    <div id="wrapper" th:replace="fragment/base::setContent(~{::content}, ~{::sidebar})">
+        <!-- Sidebar -->
+        <th:block th:fragment="sidebar">
+<!--                <th:block th:replace="fragment/side::side"></th:block>-->
+        </th:block>
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <th:block th:fragment="content">
+            <div class="container">
+                <!-- Outer Row -->
+                <div class="row justify-content-center">
+
+                    <div class="col-xl-10 col-lg-12 col-md-9">
+
+                        <div class="card o-hidden border-0 shadow-lg my-5">
+                            <div class="card-body p-0">
+                                <!-- Nested Row within Card Body -->
+                                <div class="row">
+                                    <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+                                    <div class="col-lg-6">
+                                        <div class="p-5">
+                                            <div class="text-center">
+                                                <h1 class="h4 text-gray-900 mb-4">어서오세요!!</h1>
+                                            </div>
+                                            <form class="user" th:action="@{/guest/login}" th:method="post" id="loginForm">
+                                                <div class="form-group">
+                                                    <input type="text" name="id" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="아이디를 입력해주세요..." value="kkk8go4go">
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="password" name="passwd" class="form-control form-control-user" id="exampleInputPassword" placeholder="비밀번호를 입력해주세요" value="123123123">
+                                                </div>
+<!--                                                    <div class="form-group">-->
+<!--                                                        <div class="custom-control custom-checkbox small">-->
+<!--                                                            <input type="checkbox" class="custom-control-input" id="customCheck">-->
+<!--                                                            <label class="custom-control-label" for="customCheck">Remember-->
+<!--                                                                Me</label>-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
+                                                <a href="#" class="btn btn-primary btn-user btn-block" onclick="check_form();">Login</a>
+                                                <hr>
+                                                <a th:href="@{/guest/signup}" class="btn btn-google btn-user btn-block">Signup</a>
+<!--                                                    <a href="index.html" class="btn btn-facebook btn-user btn-block">-->
+<!--                                                        <i class="fab fa-facebook-f fa-fw"></i> Login with Facebook-->
+<!--                                                    </a>-->
+                                            </form>
+                                            <hr>
+<!--                                                <div class="text-center">-->
+<!--                                                    <a class="small" href="forgot-password.html">Forgot Password?</a>-->
+<!--                                                </div>-->
+<!--                                                <div class="text-center">-->
+<!--                                                    <a class="small" href="register.html">Create an Account!</a>-->
+<!--                                                </div>-->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </th:block>
+        <!-- End of Content Wrapper -->
+    </div>
+    <!-- End of Page Wrapper -->
+<!--        <div id="wrapper" th:replace="fragment/base::setContent(~{::content}, ~{::sidebar})">-->
+    <th:block th:replace="fragment/base::setBottom(~{::bottom})">
+        <th:block th:fragment="bottom">
+            <th:block th:replace="fragment/bottom::bottom"></th:block>
+            <script type="text/javascript">
+                function check_form() {
+                    let _paraent = $('#loginForm');
+                    let _id_el = _paraent.find('[name=id]');
+                    let _id = _id_el.val();
+                    let _passwd_el = _paraent.find('[name=passwd]');
+                    let _passwd = _passwd_el.val();
+
+                    if(!_id || _id.length < 1) {
+                        alert('아이디를 입력해주세요');
+                        _id_el.focus();
+                        return;
+                    }
+
+                    if(!_passwd || _passwd.length < 1) {
+                        alert('패스워드를 입력해주세요');
+                        _passwd_el.focus();
+                        return;
+                    }
+
+                    _paraent.submit();
+                }
+            </script>
+        </th:block>
+    </th:block>
+</body>
+</html>

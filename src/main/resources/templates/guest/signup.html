@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="fragment/header::header('회원가입')"></head>
+
+<body class="bg-gradient-primary">
+    <div id="wrapper" th:replace="fragment/base::setContent(~{::content}, ~{::sidebar})">
+        <!-- Sidebar -->
+        <th:block th:fragment="sidebar">
+            <!--                <th:block th:replace="fragment/side::side"></th:block>-->
+        </th:block>
+        <th:block th:fragment="content">
+            <div class="container">
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <!-- Nested Row within Card Body -->
+                        <div class="row">
+                            <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
+                            <div class="col-lg-7">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <h1 class="h4 text-gray-900 mb-4">회원가입</h1>
+                                    </div>
+                                    <form id="signupForm" class="user" th:action="@{/guest/signup}" th:method="post">
+                                        <div class="form-group row">
+                                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                                <div class="card" style="width: 16rem;height: 16rem;">
+                                                    <img class="card-img-top" src="" alt="Card image cap" height="240px" width="200px">
+                                                    <div class="card-body profileupload">
+<!--                                                        <a href="#" class="btn btn-google btn-user btn-block">사진올리기</a>-->
+                                                        <label class="btn btn-google btn-user btn-block" for="profileupload" >사진올리기</label>
+                                                        <input type="file" id="profileupload" onchange="uploadProfile(this);" required>
+                                                        <input type="hidden" name="oname" required>
+                                                        <input type="hidden" name="fname" required>
+                                                        <input type="hidden" name="ftype" required>
+                                                        <input type="hidden" name="fsize" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <input type="text" class="form-control form-control-user mb-2" name="id" placeholder="아이디을 입력해 주세요" required>
+                                                <input type="text" class="form-control form-control-user mb-2" name="name" placeholder="이름을 입력해 주세요" required>
+                                                <input type="email" class="form-control form-control-user mb-2" name="email" placeholder="이메일을 입력해주세요" required>
+                                                <input type="password" class="form-control form-control-user mb-2" name="passwd" placeholder="패스워드를 입력해주세요" required>
+                                                <input type="password" class="form-control form-control-user mb-2" name="repasswd" placeholder="동일한 패스워드를 입력해주세요" required>
+                                            </div>
+                                        </div>
+                                        <a href="#" class="btn btn-primary btn-user btn-block mt-4" onclick="check_form();">
+                                            Signup
+                                        </a>
+                                        <hr>
+                                    </form>
+                                    <hr>
+                                    <div class="text-center">
+                                        <a class="small" th:href="@{/guest/login}">로그인</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </th:block>
+    </div>
+    <th:block th:replace="fragment/base::setBottom(~{::bottom})">
+        <th:block th:fragment="bottom">
+            <th:block th:replace="fragment/bottom::bottom"></th:block>
+            <script type="text/javascript">
+                function check_form() {
+                    let _parent = $('#signupForm');
+                    let _img_oname = _parent.find('[name=oname]');
+                    let _img_fname = _parent.find('[name=fname]');
+                    let _img_ftype = _parent.find('[name=ftype]');
+
+                    let _id = _parent.find('[name=id]');
+                    let _name = _parent.find('[name=name]');
+                    let _email = _parent.find('[name=email]');
+                    let _passwd = _parent.find('[name=passwd]');
+                    let _repasswd = _parent.find('[name=repasswd]');
+
+                    if(!$(_img_oname).val() || !$(_img_fname).val() || !$(_img_ftype).val()) {
+                        alert('사진을 등록해주세요');
+                        $('#profileupload').focus();
+                        return;
+                    }
+
+                    if(!$(_id).val() || $(_id).val().length < 8) {
+                        alert('아이디를 입력 또는 8자이상으로 등록해주세요');
+                        $(_id).focus();
+                        return;
+                    }
+                    if(!$(_name).val() || $(_name).val().length < 1) {
+                        alert('이름을 입력해주세요');
+                        $(_name).focus();
+                        return;
+                    }
+                    if(!$(_email).val() || $(_email).val().length < 1) {
+                        alert('이메일을 입력해주세요');
+                        $(_email).focus();
+                        return;
+                    }
+                    if(!$(_passwd).val() || $(_passwd).val().length < 8) {
+                        alert('패스워드를 입력해주세요');
+                        $(_passwd).focus();
+                        return;
+                    }
+                    if(!$(_repasswd).val() || $(_repasswd).val().length < 8) {
+                        alert('패스워드확인을 입력해주세요');
+                        $(_repasswd).focus();
+                        return;
+                    }
+
+                    if($(_repasswd).val() != $(_passwd).val()) {
+                        alert('입력하신 패스워드가 다릅니다. 확인해주세요');
+                        $(_passwd).focus();
+                        return;
+                    }
+
+
+                    $('.user').submit();
+                }
+
+                function uploadProfile(file) {
+                    let formData = new FormData();
+                    let inputFile = $(file);
+                    let files = inputFile[0].files;
+                    Object.entries(files).map(([key, value]) => formData.append("multipartFile", value));
+
+                    $.ajax({
+                        url: '/file/upload',
+                        processData: false,
+                        contentType: false,
+                        data: formData,
+                        type: 'POST'
+                    }).done(function (url) {
+                        console.log(url);
+                        $('.card-img-top').attr('src', url.fullPath);
+                        $('.profileupload input[name=fname]').val(url.fname);
+                        $('.profileupload input[name=oname]').val(url.oname);
+                        $('.profileupload input[name=ftype]').val(url.ftype);
+                        $('.profileupload input[name=fsize]').val(url.fsize);
+                    });
+                }
+            </script>
+
+            <style>
+                .fileuploder label {
+                    display: inline-block;
+                    padding: .5em .75em;
+                    font-size: inherit;
+                    line-height: normal;
+                    vertical-align: middle;
+                    background-color: #cae1f2;
+                    cursor: pointer;
+                    border: 1px solid #ebebeb;
+                    border-bottom-color: #e2e2e2;
+                    border-radius: .25em;
+                }
+
+                .profileupload input[type=file] {
+                    position: absolute;
+                    width: 1px;
+                    height: 1px;
+                    padding: 0;
+                    margin: -1px;
+                    overflow: hidden;
+                    clip: rect(0, 0, 0, 0);
+                    border: 0;
+                }
+            </style>
+
+        </th:block>
+    </th:block>
+</body>
+</html>

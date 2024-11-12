@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment/header::header('회원정보보기')"></head>
+
+<body id="page-top">
+<!-- Page Wrapper -->
+<div id="wrapper" th:replace="fragment/base::setContent(~{::content}, ~{::sidebar})">
+
+    <!-- Sidebar -->
+    <th:block th:fragment="sidebar">
+        <th:block th:replace="fragment/side::side"></th:block>
+    </th:block>
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <th:block th:fragment="content">
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+                <th:block th:replace="fragment/search::search"></th:block>
+                <!-- End of Topbar -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <h1 class="h3 mb-2 text-gray-800">가입자</h1>
+                    <p class="mb-4">가입자 정보 목록을 보여줍니다.</a>.</p>
+
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">가입자 목록</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                                    <form th:action="@{/profile/all}" method="get">
+                                    <div class="row">
+                                        <div class="col-sm-6 col-md-1 text-center">
+                                            <div class="dataTables_length">
+                                                <label class="mt-1">게시물</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6 col-md-2">
+                                            <div class="dataTables_length">
+                                                <select name="size" aria-controls="dataTable" class="custom-select custom-select-sm form-control form-control-sm">
+                                                    <option th:selected="${pageInfo.pager.size == 10}" value="10">10</option>
+                                                    <option th:selected="${pageInfo.pager.size == 25}" value="25">25</option>
+                                                    <option th:selected="${pageInfo.pager.size == 50}" value="50">50</option>
+                                                    <option th:selected="${pageInfo.pager.size == 80}" value="80">80</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6 col-md-3 text-left"><label class="mt-1">개</label></div>
+                                        <div class="col-sm-6 col-md-1"> <label class="mt-1">검색조건</label></div>
+                                        <div class="col-sm-6 col-md-2">
+                                            <div class="dataTables_filter">
+                                                <select aria-controls="dataTable" class="custom-select custom-select-sm form-control form-control-sm"
+                                                        name="searchType">
+                                                    <option th:selected="${pageInfo.pager.searchType == null}">검색조건</option>
+                                                    <option th:selected="${pageInfo.pager.searchType == 'n'}" value="n">이름</option>
+                                                    <option th:selected="${pageInfo.pager.searchType == 'i'}" value="i">아이디</option>
+                                                    <option th:selected="${pageInfo.pager.searchType == 'e'}" value="e">이메일</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6 col-md-2">
+                                            <div class="dataTables_filter">
+                                                <input type="search" name="keyword" class="form-control form-control-sm" placeholder="검색어를 입력해주세요" aria-controls="dataTable" th:value="${pageInfo.pager.keyword}" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6 col-md-1">
+                                            <div class="dataTables_filter">
+                                                <button type="submit" class="btn btn-primary mb-3" placeholder="" aria-controls="dataTable">
+                                                    <i class="fas fa-search fa-sm"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </form>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <table class="table table-bordered dataTable" id="dataTable" width="100%"  role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+                                                <thead>
+                                                <tr role="row">
+                                                    <th class="sorting sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 88.2px;">
+                                                        이름
+                                                    </th>
+                                                    <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 126.2px;">
+                                                        아이디
+                                                    </th>
+                                                    <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 66.2px;">
+                                                        패스워드
+                                                    </th>
+                                                    <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 30.2px;">
+                                                        이메일
+                                                    </th>
+                                                    <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 72.2px;">
+                                                        가입일
+                                                    </th>
+                                                    <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 66.2px;">
+                                                        수정일
+                                                    </th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr th:each="member:${users}">
+                                                    <td class="sorting_1" th:text="${member.name}">Airi Satou</td>
+                                                    <td th:text="${member.id}">Accountant</td>
+                                                    <td th:text="${member.passwd}">Tokyo</td>
+                                                    <td th:text="${member.email}">33</td>
+                                                    <td th:text="|${#temporals.format(member.createDate, 'yyyy-MM-dd HH:mm')}|">2008/11/28</td>
+                                                    <td th:text="|${#temporals.format(member.updateDate, 'yyyy-MM-dd HH:mm')}|">$162,700</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-5">
+                                            <div class="dataTables_info" id="dataTable_info" role="status"
+                                                 aria-live="polite">Showing 1 to 10 of 57 entries
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 col-md-7">
+                                            <div class="dataTables_paginate paging_simple_numbers"
+                                                 id="dataTable_paginate">
+                                                <ul class="pagination">
+                                                    <li class="paginate_button page-item previous" th:classappend="${!pageInfo.prev} ? disabled" id="dataTable_previous">
+                                                        <a th:href="|@{/profile/all(page=${pageInfo.startPage - 1}, size=${pageInfo.pager.size}, searchType=${pageInfo.pager.searchType}, keyword=${pageInfo.pager.searchType})}|"
+                                                                aria-controls="dataTable" tabindex="0" class="page-link">Prev</a>
+                                                    </li>
+                                                    <li th:each="page : ${pageInfo.getPageNumbers()}"  th:classappend="${pageInfo.pager.page == page} ? 'active'" class="paginate_button page-item" >
+                                                        <a th:href="@{/profile/all(page=${page},size=${pageInfo.pager.size}, searchType=${pageInfo.pager.searchType},keyword=${pageInfo.pager.keyword})}"
+                                                           aria-controls="dataTable" tabindex="0" class="page-link" th:text="${page}">1</a>
+                                                    </li>
+                                                    <li class="paginate_button page-item next" id="dataTable_next" th:classappend="${!pageInfo.next} ? disabled">
+                                                        <a th:href="@{/profile/all(page=${pageInfo.endPage + 1},size=${pageInfo.pager.size}, searchType=${pageInfo.pager.searchType},keyword=${pageInfo.pager.keyword})}"
+                                                                aria-controls="dataTable" tabindex="0" class="page-link">Next</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </th:block>
+    <!-- End of Content Wrapper -->
+</div>
+<!-- End of Page Wrapper -->
+
+<th:block th:replace="fragment/base::setBottom(~{::bottom})">
+    <th:block th:fragment="bottom">
+        <th:block th:replace="fragment/bottom::bottom"></th:block>
+        <script type="text/javascript">
+
+        </script>
+
+        <style>
+
+        </style>
+    </th:block>
+</th:block>
+</body>
+</html>

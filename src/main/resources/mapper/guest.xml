@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.k8go4go.myprofile.mapper.GuestMapper">
+    <select id="findProfileById" parameterType="string" resultType="org.k8go4go.myprofile.dto.ProfileVO">
+        SELECT
+            *
+        FROM PROFILE
+        WHERE
+            ID = #{id}
+    </select>
+
+    <select id="findImageAll" resultType="org.k8go4go.myprofile.dto.ProfileImageVO">
+        SELECT
+        *
+        FROM PROFILE_IMG
+    </select>
+
+
+    <insert id="insertProfile" parameterType="org.k8go4go.myprofile.dto.ProfileVO">
+        <selectKey keyProperty="pid" order="AFTER" resultType="long">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO PROFILE
+            (ID, NAME, PASSWD, EMAIL)
+        VALUES
+            (#{id}, #{name}, #{passwd}, #{email})
+    </insert>
+
+    <insert id="insertProfileImg" parameterType="org.k8go4go.myprofile.dto.ProfileImageVO">
+        INSERT INTO PROFILE_IMG
+            (FID, FNAME, ONAME, FTYPE, FSIZE)
+        VALUES
+            (#{fid}, #{fname}, #{oname}, #{ftype}, #{fsize})
+    </insert>
+</mapper>

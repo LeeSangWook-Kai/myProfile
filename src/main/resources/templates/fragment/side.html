@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="side">
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+    <!-- Sidebar - Brand -->
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" th:href="@{/home}">
+        <div class="sidebar-brand-icon rotate-n-15">
+            <i class="fas fa-laugh-wink"></i>
+        </div>
+        <div class="sidebar-brand-text mx-3" th:text="${session.name} ?: 'Blog'"></div>
+    </a>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider my-0">
+
+    <!-- Nav Item - Dashboard -->
+    <li class="nav-item active">
+        <a class="nav-link" th:href="@{/home}">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span th:text="${session.name}?:'Nobody\'s home'">Blog</span></a>
+    </li>
+    <!-- Heading -->
+    <div class="sidebar-heading">
+        Blog Board
+    </div>
+
+    <!-- Nav Item - Charts -->
+    <li class="nav-item" th:if="${session.userid}">
+        <a class="nav-link" th:href="@{/miniboard/list}">
+            <i class="fas fa-fw fa-chart-area"></i>
+            <span>Blog</span></a>
+    </li>
+
+    <!-- Nav Item - Charts -->
+    <li class="nav-item" th:if="${session.userid}">
+        <a class="nav-link"  th:href="@{/profile/logout}">
+            <i class="fas fa-fw fa-chart-area"></i>
+            <span>Logout</span>
+        </a>
+        <a class="nav-link" th:href="@{/profile/{userid}(userid=${session.userid})}">
+            <i class="fas fa-fw fa-chart-area"></i>
+            <span>Profile</span>
+        </a>
+    </li>
+
+    <li class="nav-item" th:if="${session.userid}">
+        <a class="nav-link"  th:href="@{/profile/all}">
+            <i class="fas fa-fw fa-chart-area"></i>
+            <span>Members</span>
+        </a>
+    </li>
+</ul>
+</th:block>
